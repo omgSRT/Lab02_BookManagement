@@ -1,5 +1,0 @@
-{
-  "ConnectionStrings": {
-    "DB": "Server=host.docker.internal;uid=sa;pwd=Thang12345;database=MyPrnStore;TrustServerCertificate=True"
-  }
-}
