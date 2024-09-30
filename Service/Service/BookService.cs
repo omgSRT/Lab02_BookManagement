@@ -1,4 +1,7 @@
-﻿using BusinessObject;
+﻿using AutoMapper;
+using BusinessObject;
+using Repository.UnitOfWork;
+using Service.DTO;
 using Service.Interface;
 using System;
 using System.Collections.Generic;
@@ -10,27 +13,96 @@ namespace Service.Service
 {
     public class BookService : IBookService
     {
-        public Task<Book> Create(Book book)
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
+        public BookService(IUnitOfWork unitOfWork, IMapper mapper)
         {
-            throw new NotImplementedException();
+            _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
 
-        public Task<Book> DeleteById(int id)
+        public async Task<Book?> Create(BookRequest request)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var address = await _unitOfWork.AddressRepository.GetByIdAsync(request.AddressId);
+                var press = await _unitOfWork.PressRepository.GetByIdAsync(request.PressId);
+                if (address != null && press != null)
+                {
+                    var newBook = _mapper.Map<Book>(request);
+                    var result = await _unitOfWork.BookRepository.CreateAsync(newBook);
+                    if (result > 0)
+                    {
+                        return newBook;
+                    }
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return null;
+            }
         }
 
-        public Task<IEnumerable<Book>> GetAll()
+        public async Task<Book?> DeleteById(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var book = await _unitOfWork.BookRepository.GetByIdAsync(id);
+                if (book != null) {
+                    var result = await _unitOfWork.BookRepository.RemoveAsync(book);
+                    if (result)
+                    {
+                        return book;
+                    }
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return null;
+            }
         }
 
-        public Task<Book> GetById(int id)
+        public async Task<IEnumerable<Book>?> GetAll()
         {
-            throw new NotImplementedException();
+            try
+            {
+                var list = await _unitOfWork.BookRepository.GetAllAsync();
+                if (list != null)
+                {
+                    return list;
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return null;
+            }
         }
 
-        public Task<Book> Update(int id, Book book)
+        public async Task<Book?> GetById(int id)
+        {
+            try
+            {
+                var book = await _unitOfWork.BookRepository.GetByIdAsync(id);
+                if (book != null)
+                {
+                    return book;
+                }
+                return null;
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return null;
+            }
+        }
+
+        public Task<Book?> Update(int id, BookRequest request)
         {
             throw new NotImplementedException();
         }

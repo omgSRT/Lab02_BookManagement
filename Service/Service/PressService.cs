@@ -1,4 +1,7 @@
-﻿using BusinessObject;
+﻿using AutoMapper;
+using BusinessObject;
+using Repository.UnitOfWork;
+using Service.DTO;
 using Service.Interface;
 using System;
 using System.Collections.Generic;
@@ -10,29 +13,116 @@ namespace Service.Service
 {
     public class PressService : IPressService
     {
-        public Task<Press> Create(Press press)
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
+
+        public PressService(IUnitOfWork unitOfWork, IMapper mapper)
         {
-            throw new NotImplementedException();
+            _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
 
-        public Task<Press> DeleteById(int id)
+        public async Task<Press?> Create(PressRequest request)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var category = await _unitOfWork.CategoryRepository.GetByIdAsync(request.CategoryId);
+                if (category != null)
+                {
+                    var newPress = _mapper.Map<Press>(request);
+                    var result = await _unitOfWork.PressRepository.CreateAsync(newPress);
+                    if (result > 0)
+                    {
+                        return newPress;
+                    }
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return null;
+            }
         }
 
-        public Task<IEnumerable<Press>> GetAll()
+        public async Task<Press?> DeleteById(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var press = await _unitOfWork.PressRepository.GetByIdAsync(id);
+                if (press != null) {
+                    var result = await _unitOfWork.PressRepository.RemoveAsync(press);
+                    if (result)
+                    {
+                        return press;
+                    }
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return null;
+            }
         }
 
-        public Task<Press> GetById(int id)
+        public async Task<IEnumerable<Press>?> GetAll()
         {
-            throw new NotImplementedException();
+            try
+            {
+                var list = await _unitOfWork.PressRepository.GetAllAsync();
+                if(list != null)
+                {
+                    return list;
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return null;
+            }
         }
 
-        public Task<Press> Update(int id, Press press)
+        public async Task<Press?> GetById(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var press = await _unitOfWork.PressRepository.GetByIdAsync(id);
+                if (press != null) {
+                    return press;
+                }
+                return null;
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return null;
+            }
+        }
+
+        public async Task<Press?> Update(int id, PressRequest request)
+        {
+            try
+            {
+                var category = await _unitOfWork.CategoryRepository.GetByIdAsync(request.CategoryId);
+                var press = await _unitOfWork.PressRepository.GetByIdAsync(id);
+                if (press != null && category != null)
+                {
+                    var updatedPress = _mapper.Map(request, press);
+                    var result = await _unitOfWork.PressRepository.UpdateAsync(updatedPress);
+                    if (result > 0)
+                    {
+                        return press;
+                    }
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return null;
+            }
         }
     }
 }
