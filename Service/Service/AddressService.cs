@@ -22,7 +22,7 @@ namespace Service.Service
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<Address>? Create(AddressRequest request)
+        public async Task<Address?> Create(AddressRequest request)
         {
             try
             {
@@ -32,10 +32,7 @@ namespace Service.Service
                 {
                     return newAddress;
                 }
-                else
-                {
-                    return null;
-                }
+                return null;
             }
             catch (Exception ex)
             {
@@ -44,29 +41,86 @@ namespace Service.Service
             }
         }
 
-        public Task<Address> DeleteById(long id)
+        public async Task<Address?> DeleteById(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var address = await _unitOfWork.AddressRepository.GetByIdAsync(id);
+                if (address != null)
+                {
+                    var result = await _unitOfWork.AddressRepository.RemoveAsync(address);
+                    if(result)
+                    {
+                        return address;
+                    }
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return null;
+            }
         }
 
-        public Task<IEnumerable<Address>> GetAll()
+        public async Task<IEnumerable<Address>?> GetAll()
         {
-            throw new NotImplementedException();
+            try
+            {
+                var list = await _unitOfWork.AddressRepository.GetAllAsync();
+                if(list != null)
+                {
+                    return list;
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return null;
+            }
         }
 
-        public Task<Address> GetById(long id)
+        public async Task<Address?> GetById(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var list = await _unitOfWork.AddressRepository.GetByIdAsync(id);
+                if (list != null)
+                {
+                    return list;
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return null;
+            }
         }
 
-        public Task<Address> GetById(long? id)
+        public async Task<Address?> Update(int id, AddressRequest request)
         {
-            throw new NotImplementedException();
-        }
+            try
+            {
+                var address = await _unitOfWork.AddressRepository.GetByIdAsync(id);
+                if (address != null)
+                {
+                    var updatedAddress = _mapper.Map(request, address);
+                    var result = await _unitOfWork.AddressRepository.UpdateAsync(updatedAddress);
+                    if(result > 0)
+                    {
+                        return updatedAddress;
+                    }
 
-        public Task<Address> Update(long id, AddressRequest request)
-        {
-            throw new NotImplementedException();
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return null;
+            }
         }
     }
 }

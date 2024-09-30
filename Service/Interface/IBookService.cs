@@ -10,10 +10,9 @@ namespace Service.Interface
     public interface IBookService
     {
         Task<IEnumerable<Book>> GetAll();
-        Task<Book> GetById(long id);
+        Task<Book> GetById(int id);
         Task<Book> Create(Book book);
-        Task<Book> Update(long id, Book book);
-        Task<Book> DeleteById(long id);
-        Task<Book> GetById(long? id);
+        Task<Book> Update(int id, Book book);
+        Task<Book> DeleteById(int id);
     }
 }

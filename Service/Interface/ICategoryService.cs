@@ -10,10 +10,9 @@ namespace Service.Interface
     public interface ICategoryService
     {
         Task<IEnumerable<Category>> GetAll();
-        Task<Category> GetById(long id);
+        Task<Category> GetById(int id);
         Task<Category> Create(Category category);
-        Task<Category> Update(long id, Category category);
-        Task<Category> DeleteById(long id);
-        Task<Category> GetById(long? id);
+        Task<Category> Update(int id, Category category);
+        Task<Category> DeleteById(int id);
     }
 }

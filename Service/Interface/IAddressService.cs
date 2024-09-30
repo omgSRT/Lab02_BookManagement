@@ -10,11 +10,10 @@ namespace Service.Interface
 {
     public interface IAddressService
     {
-        Task<IEnumerable<Address>> GetAll();
-        Task<Address> GetById(long id);
-        Task<Address> Create(AddressRequest request);
-        Task<Address> Update(long id, AddressRequest request);
-        Task<Address> DeleteById(long id);
-        Task<Address> GetById(long? id);
+        Task<IEnumerable<Address>?> GetAll();
+        Task<Address?> GetById(int id);
+        Task<Address?> Create(AddressRequest request);
+        Task<Address?> Update(int id, AddressRequest request);
+        Task<Address?> DeleteById(int id);
     }
 }

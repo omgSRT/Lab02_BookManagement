@@ -12,11 +12,14 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IAddressService, AddressService>();
-builder.Services.AddScoped<IAddressService, AddressService>();
-builder.Services.AddScoped<IAddressService, AddressService>();
-builder.Services.AddScoped<IAddressService, AddressService>();
+builder.Services.AddScoped<IBookService, BookService>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<IPressService, PressService>();
 
 builder.Services.AddAutoMapper(typeof(AddressMapping));
+builder.Services.AddAutoMapper(typeof(BookMapping));
+builder.Services.AddAutoMapper(typeof(CategoryMapping));
+builder.Services.AddAutoMapper(typeof(PressMapping));
 
 var app = builder.Build();
 

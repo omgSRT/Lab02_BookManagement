@@ -10,10 +10,9 @@ namespace Service.Interface
     public interface IPressService
     {
         Task<IEnumerable<Press>> GetAll();
-        Task<Press> GetById(long id);
+        Task<Press> GetById(int id);
         Task<Press> Create(Press press);
-        Task<Press> Update(long id, Press press);
-        Task<Press> DeleteById(long id);
-        Task<Press> GetById(long? id);
+        Task<Press> Update(int id, Press press);
+        Task<Press> DeleteById(int id);
     }
 }
