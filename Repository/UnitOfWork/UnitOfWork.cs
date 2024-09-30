@@ -1,4 +1,5 @@
 ﻿using BusinessObject;
+using Repository.Interface;
 using Repository.Repository;
 using System;
 using System.Collections.Generic;
@@ -8,14 +9,14 @@ using System.Threading.Tasks;
 
 namespace Repository.UnitOfWork
 {
-    public class UnitOfWork
+    public class UnitOfWork : IUnitOfWork
     {
         private ApplicationDbContext _context;
 
-        private AddressRepository _addressRepository;
-        private BookRepository _bookRepository;
-        private CategoryRepository _categoryRepository;
-        private PressRepository _pressRepository;
+        private IAddressRepository _addressRepository;
+        private IBookRepository _bookRepository;
+        private ICategoryRepository _categoryRepository;
+        private IPressRepository _pressRepository;
 
         public UnitOfWork()
         {
@@ -25,28 +26,28 @@ namespace Repository.UnitOfWork
             _pressRepository = new PressRepository();
         }
 
-        public AddressRepository AddressRepository
+        public IAddressRepository AddressRepository
         {
             get
             {
                 return _addressRepository ??= new AddressRepository(_context);
             }
         }
-        public BookRepository BookRepository
+        public IBookRepository BookRepository
         {
             get
             {
                 return _bookRepository ??= new BookRepository(_context);
             }
         }
-        public CategoryRepository CategoryRepository
+        public ICategoryRepository CategoryRepository
         {
             get
             {
                 return _categoryRepository ??= new CategoryRepository(_context);
             }
         }
-        public PressRepository PressRepository
+        public IPressRepository PressRepository
         {
             get
             {

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Repository.GenericRepository
 {
-    public class GenericRepository<T> where T : class
+    public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
         protected ApplicationDbContext _context;
         protected readonly DbSet<T> _dbSet;
