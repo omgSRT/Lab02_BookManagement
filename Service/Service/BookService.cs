@@ -102,9 +102,27 @@ namespace Service.Service
             }
         }
 
-        public Task<Book?> Update(int id, BookRequest request)
+        public async Task<Book?> Update(int id, BookRequest request)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var book = await _unitOfWork.BookRepository.GetByIdAsync(id);
+                if (book != null)
+                {
+                    var result = await _unitOfWork.BookRepository.UpdateAsync(book);
+                    if(result > 0)
+                    {
+                        return book;
+                    }
+                }
+
+                return null;
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return null;
+            }
         }
     }
 }
