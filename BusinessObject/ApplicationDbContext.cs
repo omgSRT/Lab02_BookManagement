@@ -16,8 +16,19 @@ namespace BusinessObject
             var builder = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsetting.json", optional: true, reloadOnChange: true);
-            IConfigurationRoot configuration = builder.Build();
-            optionsBuilder.UseSqlServer(configuration.GetConnectionString("DB"));
+            //IConfigurationRoot configuration = builder.Build();
+            //optionsBuilder.UseSqlServer(configuration.GetConnectionString("DB"));
+            optionsBuilder.UseSqlServer(GetConnectionString());
+        }
+        private string GetConnectionString()
+        {
+            IConfiguration config = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", true, true)
+                .Build();
+            var strConn = config["ConnectionStrings:DB"];
+
+            return strConn;
         }
 
         public virtual DbSet<Category> Categories { get; set; } = null!;

@@ -72,12 +72,12 @@ namespace Service.Service
                 {
                     return list;
                 }
-                return null;
+                return new List<Address>();
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                return null;
+                return new List<Address>();
             }
         }
 

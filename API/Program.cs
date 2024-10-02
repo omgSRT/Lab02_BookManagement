@@ -1,3 +1,7 @@
+using Microsoft.AspNetCore.OData;
+using Repository.Interface;
+using Repository.Repository;
+using Repository.UnitOfWork;
 using Service.AutoMapper;
 using Service.Interface;
 using Service.Service;
@@ -6,10 +10,13 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddOData(x => x.Select().Filter().OrderBy().Count().SetMaxTop(null).Expand());
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 builder.Services.AddScoped<IAddressService, AddressService>();
 builder.Services.AddScoped<IBookService, BookService>();

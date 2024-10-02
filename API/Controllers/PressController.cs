@@ -1,12 +1,36 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Query;
+using Service.Interface;
+using Service.Service;
 
 namespace API.Controllers
 {
-    public class PressController : Controller
+    [ApiController]
+    [Route("[controller]")]
+    public class PressController : ControllerBase
     {
-        public IActionResult Index()
+        private readonly IPressService _pressService;
+        public PressController(IPressService pressService)
         {
-            return View();
+            _pressService = pressService;
+        }
+        [EnableQuery(PageSize = 10)]
+        [HttpGet("getall")]
+        public IActionResult GetAllPresses()
+        {
+            try
+            {
+                var list = _pressService.GetAll().Result!.AsQueryable();
+                if (list.Any())
+                {
+                    return Ok(list);
+                }
+                return NotFound("There's No Data");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

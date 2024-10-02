@@ -75,12 +75,12 @@ namespace Service.Service
                 {
                     return list;
                 }
-                return null;
+                return new List<Press>();
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                return null;
+                return new List<Press>();
             }
         }
 
