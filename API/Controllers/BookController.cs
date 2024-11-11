@@ -21,7 +21,7 @@ namespace API.Controllers
         {
             try
             {
-                var list = _bookService.GetAll().Result!.AsQueryable();
+                var list = _bookService.GetAllWith2Include("Address", "Press").Result!.AsQueryable();
                 if (list.Any())
                 {
                     return Ok(list);
