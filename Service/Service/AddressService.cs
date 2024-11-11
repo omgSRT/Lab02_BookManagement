@@ -81,6 +81,41 @@ namespace Service.Service
             }
         }
 
+        public async Task<IEnumerable<Address>> GetAllWithInclude(string include)
+        {
+            try
+            {
+                var list = await _unitOfWork.AddressRepository.GetAllWithInclude(include);
+                if (list != null)
+                {
+                    return list;
+                }
+                return new List<Address>();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return new List<Address>();
+            }
+        }
+        public async Task<IEnumerable<Address>> GetAllWith2Include(string include1, string include2)
+        {
+            try
+            {
+                var list = await _unitOfWork.AddressRepository.GetAllWith2Include(include1, include2);
+                if (list != null)
+                {
+                    return list;
+                }
+                return new List<Address>();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return new List<Address>();
+            }
+        }
+
         public async Task<Address?> GetById(int id)
         {
             try

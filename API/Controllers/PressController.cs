@@ -20,7 +20,7 @@ namespace API.Controllers
         {
             try
             {
-                var list = _pressService.GetAll().Result!.AsQueryable();
+                var list = _pressService.GetAllWithInclude("Category").Result!.AsQueryable();
                 if (list.Any())
                 {
                     return Ok(list);

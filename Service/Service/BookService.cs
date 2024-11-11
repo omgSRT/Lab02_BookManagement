@@ -84,6 +84,41 @@ namespace Service.Service
             }
         }
 
+        public async Task<IEnumerable<Book>> GetAllWithInclude(string include)
+        {
+            try
+            {
+                var list = await _unitOfWork.BookRepository.GetAllWithInclude(include);
+                if (list != null)
+                {
+                    return list;
+                }
+                return new List<Book>();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return new List<Book>();
+            }
+        }
+        public async Task<IEnumerable<Book>> GetAllWith2Include(string include1, string include2)
+        {
+            try
+            {
+                var list = await _unitOfWork.BookRepository.GetAllWith2Include(include1, include2);
+                if (list != null)
+                {
+                    return list;
+                }
+                return new List<Book>();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return new List<Book>();
+            }
+        }
+
         public async Task<Book?> GetById(int id)
         {
             try

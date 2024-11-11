@@ -20,5 +20,7 @@ namespace Repository.GenericRepository
         Task<T> GetByIdAsync(int? id);
         T? GetByName(string name);
         Task<T> GetByNameAsync(string name);
+        Task<IEnumerable<T>> GetAllWithInclude(string include);
+        Task<IEnumerable<T>> GetAllWith2Include(string include1, string include2);
     }
 }

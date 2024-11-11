@@ -89,5 +89,17 @@ namespace Repository.GenericRepository
         {
             return await _dbSet.FindAsync(name);
         }
+
+        public async Task<IEnumerable<T>> GetAllWithInclude(string include)
+        {
+            var list= await _dbSet.Include(include).ToListAsync();
+            return list;
+        }
+
+        public async Task<IEnumerable<T>> GetAllWith2Include(string include1, string include2)
+        {
+            var list = await _dbSet.Include(include1).Include(include2).ToListAsync();
+            return list;
+        }
     }
 }

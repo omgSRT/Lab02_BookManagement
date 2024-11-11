@@ -84,6 +84,41 @@ namespace Service.Service
             }
         }
 
+        public async Task<IEnumerable<Press>> GetAllWithInclude(string include)
+        {
+            try
+            {
+                var list = await _unitOfWork.PressRepository.GetAllWithInclude(include);
+                if (list != null)
+                {
+                    return list;
+                }
+                return new List<Press>();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return new List<Press>();
+            }
+        }
+        public async Task<IEnumerable<Press>> GetAllWith2Include(string include1, string include2)
+        {
+            try
+            {
+                var list = await _unitOfWork.PressRepository.GetAllWith2Include(include1, include2);
+                if (list != null)
+                {
+                    return list;
+                }
+                return new List<Press>();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return new List<Press>();
+            }
+        }
+
         public async Task<Press?> GetById(int id)
         {
             try

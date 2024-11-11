@@ -11,6 +11,8 @@ namespace Service.Interface
     public interface IPressService
     {
         Task<IEnumerable<Press>?> GetAll();
+        Task<IEnumerable<Press>> GetAllWithInclude(string include);
+        Task<IEnumerable<Press>> GetAllWith2Include(string include1, string include2);
         Task<Press?> GetById(int id);
         Task<Press?> Create(PressRequest request);
         Task<Press?> Update(int id, PressRequest request);

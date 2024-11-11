@@ -24,7 +24,7 @@ namespace BusinessObject
         {
             IConfiguration config = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettingsjson", true, true)
+                .AddJsonFile("appsettings.json", true, true)
                 .Build();
             var strConn = config["ConnectionStrings:DB"];
 
