@@ -15,7 +15,7 @@ namespace API.Controllers
             _categoryService = categoryService;
         }
         [EnableQuery(PageSize = 10)]
-        [HttpGet("getall")]
+        [HttpGet("get")]
         public IActionResult GetAllBooksAsync()
         {
             try

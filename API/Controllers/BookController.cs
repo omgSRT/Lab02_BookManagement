@@ -16,7 +16,7 @@ namespace API.Controllers
         }
 
         [EnableQuery(PageSize = 10)]
-        [HttpGet("getall")]
+        [HttpGet("get")]
         public IActionResult GetAllBooksAsync()
         {
             try

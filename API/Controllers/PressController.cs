@@ -15,7 +15,7 @@ namespace API.Controllers
             _pressService = pressService;
         }
         [EnableQuery(PageSize = 10)]
-        [HttpGet("getall")]
+        [HttpGet("get")]
         public IActionResult GetAllPresses()
         {
             try
